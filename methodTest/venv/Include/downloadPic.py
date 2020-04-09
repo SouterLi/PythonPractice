@@ -1,0 +1,31 @@
+import requests, urllib.request,re,os,sys
+
+# 下载图片
+def download_pic(down_url):
+    print('共有{}张图片'.format(down_url.__len__()))
+    download_path = 'D:\\pictures\\test0409'
+    if not os.path.exists(download_path):
+        os.mkdir(download_path)
+    for i, url in enumerate(down_url):
+        try:
+            pic_name = os.path.basename(url)
+            urllib.request.urlretrieve(url, filename=os.path.join(download_path,os.path.basename(url)))
+            print('成功下载第{}张图片'.format(i+1))
+        except:
+            print('下载第{}张图片失败,url为{}'.format(i+1, url))
+            continue
+    print('下载结束')
+
+if __name__ == '__main__':
+    # 等待用户输入，及提示
+    print('*' * 10 + '百度图片下载助手' + '*' * 10)
+    theme =input('请输入主题：')
+    # 拼接url
+    picUrl = 'https://image.baidu.com/search/index?tn=baiduimage&word=' + theme
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    }
+    html = requests.get(picUrl, headers=headers)
+    # print('html:'+html.text)
+    down_url = re.findall('"objURL":"(.*?)"', html.text)
+    download_pic(down_url)
