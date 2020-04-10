@@ -1,6 +1,7 @@
 import requests, urllib.request, re, os
 
-# 实现自动翻页
+# 实现多页下载
+
 
 # 获取所有url
 def get_all_url(html_text, page):
@@ -19,6 +20,7 @@ def get_all_url(html_text, page):
         html_text = html.text
     return down_url
 
+
 # 下载图片
 def download_pic(down_url):
     print('共有{}张图片'.format(down_url.__len__()))
@@ -34,6 +36,7 @@ def download_pic(down_url):
             print('下载第{}张图片失败,url为{}'.format(i+1, url))
             continue
     print('下载结束')
+
 
 if __name__ == '__main__':
     # 等待用户输入，及提示
